@@ -10,7 +10,9 @@ const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 require('dotenv').config();
 
-const auth = require('./routes/auth');
+const authRouter = require('./routes/authRouter');
+const profileRouter = require('./routes/profileRouter')
+const projectRouter = require('./routes/projectRouter')
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -62,7 +64,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/auth', auth);
+app.use('/auth', authRouter);
+app.use('/profile', profileRouter);
+app.use('/project', projectRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
