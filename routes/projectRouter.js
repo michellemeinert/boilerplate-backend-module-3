@@ -13,9 +13,9 @@ router.get('/',isLoggedIn(), (req, res, next)=>{
 })
 
 //prints one projects
-router.get('/:id',isLoggedIn(), (req, res, next)=>{
-  const {id} = req.params;
-  Project.findOneById({id})
+router.get('/:_id',isLoggedIn(), (req, res, next)=>{
+  const {_id} = req.params;
+  Project.findById({_id})
     .then((response) => res.json(response))
     .catch(()=>{
       res
