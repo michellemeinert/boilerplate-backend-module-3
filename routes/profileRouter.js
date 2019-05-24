@@ -20,28 +20,29 @@ router.get('/',isLoggedIn(), (req, res, next) => {
     })
 })
 
-//  router.get('/projects', isLoggedIn(), (req, res, next) => {
-//    const { _id } = req.session.currentUser;
-//    User.find({_id, projects: 1})
-//      .then((response) => res.json(response))
-//      .catch((err)=>{
-//        res
-//          .status(500)
-//          .send(err)
-//      })
-//  })
+ router.get('/projects', isLoggedIn(), (req, res, next) => {
+   const { _id } = req.session.currentUser;
+   User.findById(_id)
+     .populate('projects')
+     .then((response) => res.json(response))
+     .catch((err)=>{
+       res
+         .status(500)
+         .send(err)
+     })
+ })
 
 //prints another users profile 
-router.get('/:_id',isLoggedIn(), (req, res, next) => {
-  const { _id } = req.params;
-  User.findOne({_id})
-    .then((response) => res.json(response))
-    .catch((err)=>{
-      res
-        .status(500)
-        .send(err)
-    })
-})
+ router.get('/:_id',isLoggedIn(), (req, res, next) => {
+   const { _id } = req.params;
+   User.findOne({_id})
+     .then((response) => res.json(response))
+     .catch((err)=>{
+       res
+         .status(500)
+         .send(err)
+     })
+ })
 
 // adds one project to currentUser
  router.post('/addProject',isLoggedIn(), (req, res, next) => {
