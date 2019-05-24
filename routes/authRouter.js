@@ -12,9 +12,16 @@ const {
   validationLoggin,
 } = require('../helpers/middlewares');
 
-// router.get('/me', isLoggedIn(), (req, res, next) => {
-//   res.json(req.session.currentUser);
-// });
+  router.get('/me', isLoggedIn(), (req, res, next) => {
+    res.json(req.session.currentUser);
+  });
+
+
+router.get('/login', isNotLoggedIn(), (req, res, next)=>{
+  res.status(200).json({
+    message: 'test',
+  });
+})
 
 router.post(
   '/login',
@@ -55,6 +62,7 @@ router.post(
         const newUser = await User.create({ username, password: hashPass });
         req.session.currentUser = newUser;
         res.status(200).json(newUser);
+        
       }
     } catch (error) {
       next(error);
@@ -64,13 +72,14 @@ router.post(
 
 router.post('/logout', isLoggedIn(), (req, res, next) => {
   req.session.destroy();
+  
   return res.status(204).send();
 });
 
-// router.get('/private', isLoggedIn(), (req, res, next) => {
-//   res.status(200).json({
-//     message: 'This is a private message',
-//   });
-// });
+ router.get('/private', isLoggedIn(), (req, res, next) => {
+   res.status(200).json({
+     message: 'This is a private message',
+   });
+ });
 
 module.exports = router;

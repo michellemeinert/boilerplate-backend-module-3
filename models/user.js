@@ -9,10 +9,8 @@ const userSchema = new Schema({
     ref: 'Project'
   }],
   occupation: String,
-  profile: {
-    description: String,
-    uploads: String
-  }
+  description: String,
+  imgUrl: String
 // }, {
 //   timestamps: {
 //     createdAt: 'created_at',

@@ -7,6 +7,7 @@ const projectSchema = new Schema({
     ref: 'User'
   },
   projectname: String,
+  description: String
   //contributors: userSchema,
   //looking_for: String,
 
