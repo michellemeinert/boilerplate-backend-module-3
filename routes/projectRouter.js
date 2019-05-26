@@ -10,6 +10,7 @@ const {isLoggedIn} = require('../helpers/middlewares');
 router.get('/',isLoggedIn(), (req, res, next)=>{
   Project.find()
     .then((response)=> res.json(response))
+    .catch((err) => console.log(err))
 })
 
 //prints one projects
@@ -36,6 +37,17 @@ router.delete('/:id',isLoggedIn(), (req, res, next)=>{
     })
 })
 
-
+ //edit specific project
+ router.put('/:_id/editProject',isLoggedIn(), (req, res, next) => {
+  const { _id } = req.params;
+  const {projectname, description} = req.body;
+  Project.findByIdAndUpdate(_id,{$set: {description, projectname}},{new:true})
+    .then((data) => res.json(data))
+    .catch(()=>{
+      res
+        .status(500)
+        .send()
+    })
+ })
 
 module.exports = router;

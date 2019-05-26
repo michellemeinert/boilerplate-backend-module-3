@@ -8,8 +8,13 @@ const projectSchema = new Schema({
   },
   projectname: String,
   description: String,
-  //contributors: [userSchema]
-  //looking_for: String,
+  contributors: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    accepted: true
+  }
+],
+ looking_for: String,
 
 });
 

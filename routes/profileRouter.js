@@ -20,11 +20,15 @@ router.get('/',isLoggedIn(), (req, res, next) => {
     })
 })
 
+//gets users projects
  router.get('/projects', isLoggedIn(), (req, res, next) => {
    const { _id } = req.session.currentUser;
    User.findById(_id)
      .populate('projects')
-     .then((response) => res.json(response))
+     .then((response) => {
+       console.log("response:", response)
+       res.json(response)
+      })
      .catch((err)=>{
        res
          .status(500)
@@ -45,17 +49,22 @@ router.get('/',isLoggedIn(), (req, res, next) => {
  })
 
 // adds one project to currentUser
- router.post('/addProject',isLoggedIn(), (req, res, next) => {
+ router.post('/projects/addProject',isLoggedIn(), (req, res, next) => {
+  console.log(User)
   const { _id } = req.session.currentUser;
-  const {projectname} = req.body;
+  const {projectname, description} = req.body;
   const newProj = new Project({
     projectname,
+    description
   })
   let makeProject = newProj.save();
-  let updateUser = User.findByIdAndUpdate(_id,{$push: {projects: newProj._id}})
+  let updateUser = User.findOneAndUpdate(_id,{$push: {projects: newProj._id}})
 
   Promise.all([makeProject, updateUser])
-    .then((data)=>res.json(data))
+    .then((data)=>{
+     console.log(data)
+      res.json(data)
+    })
     .catch((err) => console.log(err))
   })
 
@@ -63,7 +72,7 @@ router.get('/',isLoggedIn(), (req, res, next) => {
  router.put('/edit',isLoggedIn(), (req, res, next) => {
   const { _id } = req.session.currentUser;
   const {description, occupation, imgUrl} = req.body;
-  User.findOneAndUpdate({_id},{$set: {description, occupation}},{new:true})
+  User.findByIdAndUpdate(_id,{$set: {description, occupation}},{new:true})
     .then((data) => res.json(data))
     .catch(()=>{
       res
@@ -72,13 +81,15 @@ router.get('/',isLoggedIn(), (req, res, next) => {
     })
  })
 
+
  router.post('/image',isLoggedIn(), parser.single('photo'), (req, res, next) => {
   console.log('file upload');
   if (!req.file) {
     next(new Error('No file uploaded!'));
   };
   const imgUrl = req.file.secure_url;
-  User.findOneAndUpdate({_id},{$set: {imgUrl}},{new:true})
+  const {_id} = req.session.currentUser;
+  User.findByIdAndUpdate(_id,{$set: {imgUrl}},{new:true})
   res.json(imgUrl).status(200);
 });
 

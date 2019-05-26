@@ -66,7 +66,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
-app.use('/project', projectRouter);
+app.use('/projects', projectRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
