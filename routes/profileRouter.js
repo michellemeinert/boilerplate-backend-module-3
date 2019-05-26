@@ -7,7 +7,15 @@ const Project = require('../models/Project');
 const {isLoggedIn} = require('../helpers/middlewares');
 const parser = require('../config-cloudinary/cloudinary');
 
-
+router.get('/users', (req, res, next)=> {
+  User.find()
+  .then((response) => res.json(response))
+  .catch((err)=>{
+    res
+      .status(500)
+      .send(err)
+  })
+})
 // prints currentUser profile
 router.get('/',isLoggedIn(), (req, res, next) => {
   const { _id } = req.session.currentUser;
