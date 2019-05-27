@@ -58,15 +58,17 @@ router.get('/',isLoggedIn(), (req, res, next) => {
 
 // adds one project to currentUser
  router.post('/projects/addProject',isLoggedIn(), (req, res, next) => {
-  console.log(User)
+
   const { _id } = req.session.currentUser;
   const {projectname, description} = req.body;
+  console.log(_id);
   const newProj = new Project({
     projectname,
     description
   })
+
   let makeProject = newProj.save();
-  let updateUser = User.findOneAndUpdate(_id,{$push: {projects: newProj._id}})
+  let updateUser = User.findByIdAndUpdate(_id,{$push: {projects: newProj._id}})
 
   Promise.all([makeProject, updateUser])
     .then((data)=>{

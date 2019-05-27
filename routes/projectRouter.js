@@ -50,10 +50,10 @@ router.delete('/:id',isLoggedIn(), (req, res, next)=>{
     })
  })
 
- router.put('/:_idProject/contributors/:_idUser',isLoggedIn(), (req, res, next) => {
-  const { _idProject, _idUser } = req.params;
-  const {contributors} = req.body;
-  Project.findOneAndUpdate(_idProject,{$push: {contributors: _idUser}},{new:true})
+ router.put('/:_idProject/contributors',isLoggedIn(), (req, res, next) => {
+  const { _idProject } = req.params;
+  const _idUser = req.session.currentUser._id;
+  Project.findByIdAndUpdate(_idProject,{$push: {contributors: _idUser}},{new:true})
     .then((data) => res.json(data))
     .catch(()=>{
       res
