@@ -8,8 +8,10 @@ const {isLoggedIn} = require('../helpers/middlewares');
 
 //prints all projects
 router.get('/',isLoggedIn(), (req, res, next)=>{
-  Project.find()
-    .then((response)=> res.json(response))
+  Project.find({})
+    .populate('owner')
+    .populate('contributors')
+    .then((response)=> {res.json(response); console.log("response:", response)})
     .catch((err) => console.log(err))
 })
 
@@ -28,7 +30,7 @@ router.get('/:_id',isLoggedIn(), (req, res, next)=>{
 //deletes one project by currentUser
 router.delete('/:id',isLoggedIn(), (req, res, next)=>{
   const {id} = req.params;
-  Project.findOneAndRemove({id})
+  Project.findByIdAndRemove(id)
     .then((response) => res.json(response))
     .catch(()=>{
       res
@@ -54,7 +56,18 @@ router.delete('/:id',isLoggedIn(), (req, res, next)=>{
   const { _idProject } = req.params;
   const _idUser = req.session.currentUser._id;
   Project.findByIdAndUpdate(_idProject,{$push: {contributors: _idUser}},{new:true})
-    .then((data) => res.json(data))
+    .then((data) => {
+      res.json(data)
+      Project.find({})
+      .then((data)=>{
+        res.json(data)
+      })
+      .catch(()=>{
+        res
+          .status(500)
+          .send()
+      })
+    })
     .catch(()=>{
       res
         .status(500)

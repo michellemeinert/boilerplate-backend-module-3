@@ -64,7 +64,8 @@ router.get('/',isLoggedIn(), (req, res, next) => {
   console.log(_id);
   const newProj = new Project({
     projectname,
-    description
+    description,
+    owner: req.session.currentUser._id
   })
 
   let makeProject = newProj.save();
