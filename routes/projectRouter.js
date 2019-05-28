@@ -52,6 +52,8 @@ router.delete('/:id',isLoggedIn(), (req, res, next)=>{
     })
  })
 
+
+ //add contributor
  router.put('/:_idProject/contributors',isLoggedIn(), (req, res, next) => {
   const { _idProject } = req.params;
   const _idUser = req.session.currentUser._id;
@@ -67,6 +69,21 @@ router.delete('/:id',isLoggedIn(), (req, res, next)=>{
           .status(500)
           .send()
       })
+    })
+    .catch(()=>{
+      res
+        .status(500)
+        .send()
+    })
+ })
+
+
+ //remove specific contributor
+ router.put('/:_idProject/removeContributor',isLoggedIn(), (req, res, next) => {
+  const { _idProject } = req.params;
+  Project.findByIdAndRemove(_idProject, {contributors:  req.session.currentUser._id})
+    .then((data) => {
+      res.json(data)
     })
     .catch(()=>{
       res
