@@ -81,7 +81,7 @@ router.delete('/:id',isLoggedIn(), (req, res, next)=>{
  //remove specific contributor
  router.put('/:_idProject/removeContributor',isLoggedIn(), (req, res, next) => {
   const { _idProject } = req.params;
-  Project.findByIdAndRemove(_idProject, {contributors:  req.session.currentUser._id})
+  Project.findByIdAndUpdate(_idProject, {$pull: {contributors:  req.session.currentUser._id}})
     .then((data) => {
       res.json(data)
     })
