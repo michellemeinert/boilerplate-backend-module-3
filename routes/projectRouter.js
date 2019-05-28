@@ -16,7 +16,7 @@ router.get('/',isLoggedIn(), (req, res, next)=>{
 })
 
 //prints one projects
-router.get('/:_id',isLoggedIn(), (req, res, next)=>{
+router.get('/:_id', isLoggedIn(), (req, res, next)=>{
   const {_id} = req.params;
   Project.findById({_id})
     .then((response) => res.json(response))
@@ -25,6 +25,15 @@ router.get('/:_id',isLoggedIn(), (req, res, next)=>{
         .status(500)
         .send()
     })
+})
+
+//get projects where user is contributor
+router.get('/test',isLoggedIn(), (req, res, next)=>{
+ // const user = req.session.currentUser._id;
+  //console.log(user)
+  Project.find()
+    .then((response)=> {res.json(response); console.log("response:", response)})
+    .catch((err) => console.log(err))
 })
 
 //deletes one project by currentUser
