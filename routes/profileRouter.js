@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const User = require('./../models/user');
-const Project = require('./../models/project');
+const User = require('./../models/User');
+const Project = require('./../models/Project');
 const {isLoggedIn} = require('./../helpers/middlewares');
 const parser = require('./../config-cloudinary/cloudinary');
 
