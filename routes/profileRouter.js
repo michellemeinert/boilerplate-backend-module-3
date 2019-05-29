@@ -2,10 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-const User = require('../models/user');
-const Project = require('../models/project');
-const {isLoggedIn} = require('../helpers/middlewares');
-const parser = require('../config-cloudinary/cloudinary');
+const User = require('./../models/user');
+const Project = require('./../models/project');
+const {isLoggedIn} = require('./../helpers/middlewares');
+const parser = require('./../config-cloudinary/cloudinary');
 
 router.get('/users', (req, res, next)=> {
   User.find()

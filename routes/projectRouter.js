@@ -2,9 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const Project = require('../models/project');
-const {isLoggedIn} = require('../helpers/middlewares');
-
+const Project = require('./../models/project');
+const {isLoggedIn} = require('./../helpers/middlewares');
 
 //prints all projects
 router.get('/',isLoggedIn(), (req, res, next)=>{
