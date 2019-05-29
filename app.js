@@ -85,7 +85,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use((req, res, next)=>{
-  res.sendFile(__dirname + "/public/build/index.html")
+  res.sendFile(__dirname + "/public/index.html")
 })
 
 module.exports = app;
